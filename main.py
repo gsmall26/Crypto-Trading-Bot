@@ -23,11 +23,22 @@ logger.addHandler(file_handler)
 
 if __name__ == '__main__':
 
-    binance = BinanaceFuturesClient(True) #using testnet environment
-    print(binance.get_historical_candles('BTCUSDT', "1h"))
-
+    binance = BinanaceFuturesClient("6b493fba6f464f92520a1df3c1a66b3271181ad16fe660cfa545838b60101360", #api keys from testnet.binancefuture
+                                    "b316d432d1e251fa02ca3ae3267b333d96abdd86dbd90e569981b984d7ce33f0", True) #using testnet environment. str, str, bool
+    
     root = tk.Tk() # root/main window
     root.mainloop() # displays root window
+
+
+    #create Balance class and have a dict with currency as the key and the Balance object will be the value
+    #Balance class will be a data model, meaning that we know exactly what is in there
+
+    """
+    example usage:
+    print(binance.place_order("BTCUSDT", "BUY", 0.01, "LIMIT", 20000, "GTC")) - gtc = good til cancel
+    print(binance.get_order_status("BTCUSDT", 3747638473))
+    print(binance.cancel_order("BTCUSDT", 3747638473))
+    """
 
 
 # logger.debug("This message is important noly when debugging the program")
