@@ -38,6 +38,8 @@ class BinanaceFuturesClient:
 
         self.prices = {} #dict with contract name as key with price as a value
 
+        self.logs = []
+
         self._ws_id = 1 #increment any time we call subscribe channel method
         self._ws = None
 
@@ -46,6 +48,10 @@ class BinanaceFuturesClient:
 
         logger.info("Binance Futures Client successfully initialized")
 
+    
+    def _add_log(self, msg: str):
+        logger.info("%s", msg)
+        self.logs.append({"log": msg, "displayed": False})
 
     def _generate_signature(self, data: typing.Dict) -> str: #_private_method()
         return hmac.new(self._secret_key.encode(), urlencode(data).encode(), hashlib.sha256).hexdigest() #convert string to byte object with encode(), convert data to query string
@@ -90,7 +96,7 @@ class BinanaceFuturesClient:
 
         if exchange_info is not None:
             for contract_data in exchange_info['symbols']:
-                contracts[contract_data['pair']] = Contract(contract_data, "binance")
+                contracts[contract_data['symbol']] = Contract(contract_data, "binance")
         
         return contracts #can access instance variables by: contracts['BTCUSDT'].instance variable
 

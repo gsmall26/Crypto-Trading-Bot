@@ -33,7 +33,8 @@ if __name__ == '__main__':
 
     # print(bitmex.place_order(bitmex.contracts['XBTUSD'], "Limit", 50, "Buy", price=20000, tif="GoodTillCancel")) #example test
     
-    root = Root() #initially tk.Tk(), root/main window
+    #pass binace and bitmex objects into roo component
+    root = Root(binance, bitmex) #initially tk.Tk(), root/main window
     root.mainloop() # displays root window
 
 
