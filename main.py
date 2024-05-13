@@ -4,6 +4,8 @@ import logging #logging library
 from connectors.binance_futures import BinanaceFuturesClient
 from connectors.bitmex import BitmexClient
 
+from interface.root_component import Root
+
 logger = logging.getLogger() # logger object
 
 logger.setLevel(logging.INFO)
@@ -21,18 +23,17 @@ file_handler.setLevel(logging.DEBUG)
 logger.addHandler(stream_handler)
 logger.addHandler(file_handler)
 
-
+#entry point to application
 if __name__ == '__main__':
 
     binance = BinanaceFuturesClient("6b493fba6f464f92520a1df3c1a66b3271181ad16fe660cfa545838b60101360", #api keys from testnet.binancefuture
                                     "b316d432d1e251fa02ca3ae3267b333d96abdd86dbd90e569981b984d7ce33f0", True) #using testnet environment. str, str, bool
     
-
     bitmex = BitmexClient("uXr1T711wD-3pvEpXjlkvNFx", "GEIkARqi2QZh70V77T28M2Y0zxSBh_rNGhRJIbwZAIqYCkYu", True)
 
     # print(bitmex.place_order(bitmex.contracts['XBTUSD'], "Limit", 50, "Buy", price=20000, tif="GoodTillCancel")) #example test
     
-    root = tk.Tk() # root/main window
+    root = Root() #initially tk.Tk(), root/main window
     root.mainloop() # displays root window
 
 
