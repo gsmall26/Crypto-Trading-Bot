@@ -44,8 +44,6 @@ class BinanaceFuturesClient:
         t = threading.Thread(target=self._start_ws) #creating thread object
         t.start() #start
 
-        self.start_ws()
-
         logger.info("Binance Futures Client successfully initialized")
 
 
@@ -109,7 +107,7 @@ class BinanaceFuturesClient:
 
         if raw_candles is not None: #if request was successful
             for c in raw_candles:
-                candles.append(Candle(c, "binance")) #create Candle object and provide it with information --> c1 = open price, c2 = high price, c3 = low price, c4 = close price, c5 = volume
+                candles.append(Candle(c, interval, "binance")) #create Candle object and provide it with information --> c1 = open price, c2 = high price, c3 = low price, c4 = close price, c5 = volume
         
         return candles #return list of Candle objects
     
@@ -150,11 +148,11 @@ class BinanaceFuturesClient:
         data = {} #dictionary of parameters
         data['symbol'] = contract.symbol
         data['side'] = side
-        data['quantity'] = quantity
+        data['quantity'] = round(round(quantity / contract.lot_size) * contract.lot_size, 8)
         data['type'] = order_type
 
         if price is not None: # if we get a price argument
-            data['price'] = price # add price to dictionary of parameters
+            data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8) # add price to dictionary of parameters
 
         if tif is not None: # same for time in force
             data['timeInForce'] = tif
@@ -203,11 +201,11 @@ class BinanaceFuturesClient:
     
 
     def _start_ws(self): #starts connection and assign a certain function when an event occurs
-        self.ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close, on_error=self._on_error, #websocketApp object. first argument is websocket url, others to specify call back
+        self._ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close, on_error=self._on_error, #websocketApp object. first argument is websocket url, others to specify call back
                                     on_message=self._on_message)
         while True:
             try:
-                self.ws.run_forever() #infinite loop waiting for messages from server. when message is received, callback function can be triggered
+                self._ws.run_forever() #infinite loop waiting for messages from server. when message is received, callback function can be triggered
             except Exception as e:
                 logger.error("Binance error in run_forever() method: %s", e)
             time.sleep(2) #2 second pause
@@ -250,22 +248,13 @@ class BinanaceFuturesClient:
 
         #send() expects string not dict. json.dumps(data) converts dict to JSON string. similar to query string idea
         try:
-            self.ws.send(json.dumps(data)) #send() to send JSON object through the websocket connection
+            self._ws.send(json.dumps(data)) #send() to send JSON object through the websocket connection
         except Exception as e:
             logger.error("Websocket error while subscribing to %s %s updates: %s", len(contracts), channel, e)
             
         self._ws_id += 1
 
 
-# import pprint
-# def get_contracts():
-#     response_object = requests.get("https://fapi.binance.com/fapi/v1/exchangeInfo") #base endpoint
-#     contracts = []
-#     for contract in response_object.json()['symbols']: 
-#         contracts.append(contract['pair'])
-#     return contracts
-#     #pprint.pprint(response_object.json()['symbols'])
-# print(get_contracts())
 
 
 

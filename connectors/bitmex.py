@@ -36,8 +36,8 @@ class BitmexClient:
 
         self.prices = {}
 
-        # t = threading.Thread(target=self._start_ws)
-        # t.start()
+        t = threading.Thread(target=self._start_ws)
+        t.start()
 
         logger.info("Bitmex Client successfully initialized")
     
@@ -110,21 +110,22 @@ class BitmexClient:
         
         return balances
 
-    def get_historical_chandles(self, contract: Contract, timeframe: str) -> typing.Dict[Candle]:
+    def get_historical_candles(self, contract: Contract, timeframe: str) -> typing.List[Candle]:
         data = {}
 
         data['symbol'] = contract.symbol
         data['partial'] = True
         data['binSize'] = timeframe
         data['count'] = 500
+        data['reverse'] = True #show newest
 
         raw_candles = self._make_request("GET", "api/v1/trade/bucketed", data)
 
         candles = []
 
         if raw_candles is not None:
-            for c in raw_candles:
-                candles.append(Candle(c, "bitmex"))
+            for c in reversed(raw_candles):
+                candles.append(Candle(c, timeframe, "bitmex"))
 
         return candles
 
@@ -134,11 +135,11 @@ class BitmexClient:
 
         data['symbol'] = contract.symbol
         data['side'] = side.capitalize() # must be "Buy" or "Sell"
-        data['orderQty'] = quantity
+        data['orderQty'] = round(quantity / contract.lot_size) * contract.lot_size
         data['ordType'] = order_type.capitalize()
 
         if price is not None:
-            data['price'] = price
+            data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8)
 
         if tif is not None:
             data['timeInForce'] = tif
@@ -150,7 +151,7 @@ class BitmexClient:
         
         return order_status
 
-    def cancel_order(self, order_id: str):
+    def cancel_order(self, order_id: str) -> OrderStatus:
         data = {}
         data['orderID'] = order_id
 
@@ -161,7 +162,7 @@ class BitmexClient:
         
         return order_status
 
-    def get_order_status(self, order_id: str, contract: Contract):   
+    def get_order_status(self, order_id: str, contract: Contract) -> OrderStatus:   
         data = {}
         data['symbol'] = contract.symbol
         data['reverse'] = True #first elements in the list will be the newest order IDs
@@ -173,3 +174,60 @@ class BitmexClient:
                 if order['orderID'] == order_id: #we found the orderID that we are interested in
                     return OrderStatus(order, "bitmex") 
         
+    
+    def _start_ws(self): #starts connection and assign a certain function when an event occurs
+        self._ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close, on_error=self._on_error, #websocketApp object. first argument is websocket url, others to specify call back
+                                    on_message=self._on_message)
+        while True:
+            try:
+                self._ws.run_forever() #infinite loop waiting for messages from server. when message is received, callback function can be triggered
+            except Exception as e:
+                logger.error("Bitmex error in run_forever() method: %s", e)
+            time.sleep(2) #2 second pause
+
+    def _on_open(self, ws):
+        logger.info("Bitmex connection opened") #welcome to show websocket connection has been established
+        
+        self.subscribe_channel("instrument") #when connection opens, subscribe to channel
+
+    def _on_close(self, ws):
+        logger.warning("Bitmex Websocket connection closed")
+    
+    def _on_error(self, ws, msg: str):
+        logger.error("Bitmex connection error: %s", msg)
+
+    def _on_message(self, ws, msg: str):
+        data = json.loads(msg) #convert json string that we received to json object that we can pass. loads() does this
+        
+        if "table" in data:
+            if data['table'] == "instrument":
+
+                for d in data['data']:
+
+                    symbol = d['symbol']
+
+                    if symbol not in self.prices:
+                        self.prices[symbol] = {'bid': None, 'ask': None}
+
+                    if 'bidPrice' in d:
+                        self.prices[symbol]['bid'] = d['bidPrice']
+
+                    if 'askPrice' in d:
+                        self.prices[symbol]['ask'] = d['askPrice']
+                    
+                    print(self.prices[symbol])
+        
+    
+    def subscribe_channel(self, topic: str): 
+        #creating json object. create python dict and fill it with the keys from binance documentation
+        data = {}
+        data['op'] = "subscribe"
+        data['args'] = [] #list of channels we want to subscribe to
+        data['args'].append(topic)
+
+        try:
+            self._ws.send(json.dumps(data)) #send() to send JSON object through the websocket connection
+        except Exception as e:
+            logger.error("Websocket error while subscribing to %s: %s", topic, e)
+            
+
