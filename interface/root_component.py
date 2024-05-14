@@ -7,6 +7,8 @@ from connectors.binance_futures import BinanaceFuturesClient
 from interface.styling import * #access variables in styling file
 from interface.logging_component import Logging
 from interface.watchlist_component import Watchlist
+from interface.trades_component import TradesWatch
+from interface.strategy_component import StrategyEditor
 
 logger = logging.getLogger()
 
@@ -31,12 +33,18 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
         self._watchlist_frame = Watchlist(self.binance.contracts, self.bitmex.contracts, self._left_frame, bg=BG_COLOR)
         self._watchlist_frame.pack(side=tk.TOP)
 
-        self._logging_frame = Logging(self._left_frame, bg=BG_COLOR) #parent widget is left fraome
-        self._logging_frame.pack(side=tk.TOP)
+        self.logging_frame = Logging(self._left_frame, bg=BG_COLOR) #parent widget is left fraome
+        self.logging_frame.pack(side=tk.TOP)
+
+        self._strategy_frame = StrategyEditor(self, self.binance, self.bitmex, self._right_frame, bg=BG_COLOR)
+        self._strategy_frame.pack(side=tk.TOP)
+
+        self._trades_frame = TradesWatch(self._right_frame, bg=BG_COLOR)
+        self._trades_frame.pack(side=tk.TOP)
 
         self._update_ui()
 
-        #test that displays message to log: self._logging_frame.add_log("This is a test message")
+        #test that displays message to log: self.logging_frame.add_log("This is a test message")
 
     def _update_ui(self):
         #logs
@@ -44,13 +52,13 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
         #bitmex
         for log in self.bitmex.logs:
             if not log['displayed']: #if the element has not been displayed, add log to the logging component
-                self._logging_frame.add_log(log['log'])
+                self.logging_frame.add_log(log['log'])
                 log['displayed'] = True #it has now been added
         
         #binance
         for log in self.binance.logs:
             if not log['displayed']: #if the element has not been displayed, add log to the logging component
-                self._logging_frame.add_log(log['log'])
+                self.logging_frame.add_log(log['log'])
                 log['displayed'] = True #it has now been added
 
         #watchlist prices

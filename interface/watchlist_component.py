@@ -71,7 +71,6 @@ class Watchlist(tk.Frame):
 
     def _add_symbol(self, symbol: str, exchange: str):
 
-
         b_index = self._body_index
 
         self.body_widgets['symbol'][b_index] = tk.Label(self._table_frame, text=symbol, bg=BG_COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)

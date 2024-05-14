@@ -29,7 +29,8 @@ if __name__ == '__main__':
     binance = BinanaceFuturesClient("6b493fba6f464f92520a1df3c1a66b3271181ad16fe660cfa545838b60101360", #api keys from testnet.binancefuture
                                     "b316d432d1e251fa02ca3ae3267b333d96abdd86dbd90e569981b984d7ce33f0", True) #using testnet environment. str, str, bool
     
-    bitmex = BitmexClient("uXr1T711wD-3pvEpXjlkvNFx", "GEIkARqi2QZh70V77T28M2Y0zxSBh_rNGhRJIbwZAIqYCkYu", True)
+    #bitmex = BitmexClient("uXr1T711wD-3pvEpXjlkvNFx", "GEIkARqi2QZh70V77T28M2Y0zxSBh_rNGhRJIbwZAIqYCkYu", True)
+    bitmex = BitmexClient("necVI4HiTb733nqtBDKay0X_", "ftYXubQxLxdb_FBHbkj2CSTAJ1t6G_Fuf-61sV2Go8OHufBB", True)
 
     # print(bitmex.place_order(bitmex.contracts['XBTUSD'], "Limit", 50, "Buy", price=20000, tif="GoodTillCancel")) #example test
     
