@@ -11,9 +11,13 @@ import hashlib
 import websocket
 import json
 
+import dateutil.parser
+
 import threading
 
 from models import *
+
+from strategies import TechnicalStrategy, BreakoutStrategy
 
 logger = logging.getLogger()
 
@@ -35,6 +39,7 @@ class BitmexClient:
         self.balances = self.get_balances()
 
         self.prices = {}
+        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = {}
 
         self.logs = [] #root component will loop through this list and display new items
 
@@ -195,6 +200,7 @@ class BitmexClient:
         logger.info("Bitmex connection opened") #welcome to show websocket connection has been established
         
         self.subscribe_channel("instrument") #when connection opens, subscribe to channel
+        self.subscribe_channel("trade")
 
     def _on_close(self, ws):
         logger.warning("Bitmex Websocket connection closed")
@@ -220,7 +226,16 @@ class BitmexClient:
 
                     if 'askPrice' in d:
                         self.prices[symbol]['ask'] = d['askPrice']
-                    
+            
+            elif data['table'] == "trade":
+
+                for d in data['data']:
+                    symbol = d['symbol']
+                    ts = int(dateutil.parser.isoparse(d['timestamp']).timestamp() * 1000) #timestamp represents time of the trade, iso format converted to unix timestamp
+
+                    for key, strat in self.strategies.items():
+                        if strat.contract.symbol == symbol:
+                            strat.parse_trades(float(d['price']), float(d['size']), ts)
                     
     
     def subscribe_channel(self, topic: str): 

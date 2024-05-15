@@ -14,6 +14,8 @@ import threading #used to create threads. goal is to run function in parallel so
 
 from models import *
 
+from strategies import TechnicalStrategy, BreakoutStrategy
+
 logger = logging.getLogger() # Binance connector
 
 
@@ -37,6 +39,7 @@ class BinanaceFuturesClient:
         self.balances = self.get_balances()
 
         self.prices = {} #dict with contract name as key with price as a value
+        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = {}
 
         self.logs = []
 
@@ -220,6 +223,8 @@ class BinanaceFuturesClient:
         logger.info("Binanace connection opened") #welcome to show websocket connection has been established
         
         self.subscribe_channel(list(self.contracts.values()), "bookTicker") #when connection opens, subscribe to channel
+        self.subscribe_channel(list(self.contracts.values()), "aggTrade")
+
 
     def _on_close(self, ws):
         logger.warning("Binance Websocket connection closed")
@@ -240,6 +245,13 @@ class BinanaceFuturesClient:
                 else:
                     self.prices[symbol]['bid'] = float(data['b'])
                     self.prices[symbol]['ask'] = float(data['a'])
+
+        elif data['e'] == "aggTrade":
+            symbol = data['s']
+
+            for key, strat in self.strategies.items():
+                if strat.contract.symbol == symbol:
+                    strat.parse_trades(float(data['p']), float(data['q']), data['T'])
         
     
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str): #subscribe to a channel that provides us with market data. parameter is symbol you want data on

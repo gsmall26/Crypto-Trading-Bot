@@ -24,11 +24,11 @@ class Candle:
     def __init__(self, candle_info, timeframe, exchange): #creating candel models for get_historical_candles() method
         if exchange == "binance": 
             self.timestamp = candle_info[0]
-            self.open = candle_info['open']
-            self.high = candle_info['high']
-            self.low = candle_info['low']
-            self.close = candle_info['close']
-            self.volume = candle_info['volume']
+            self.open = float(candle_info[1])
+            self.high = float(candle_info[2])
+            self.low = float(candle_info[3])
+            self.close = float(candle_info[4])
+            self.volume = float(candle_info[5])
 
         elif exchange == "bitmex": #keys are different for bitmex vs binanace
             self.timestamp = dateutil.parser.isoparse(candle_info['timestamp']) #datetime object
@@ -36,11 +36,20 @@ class Candle:
             # print(candle_info['timplestamp'], dateutil.parser.isoparse(candle_info['timestamp']), self.timestamp)
             self.timestamp = int(self.timestamp.timestamp() * 1000) #unix timestamp
 
-            self.open = candle_info[1]
-            self.high = float(candle_info[2])
-            self.low = float(candle_info[3])
-            self.close = float(candle_info[4])
-            self.volume = float(candle_info[5])
+            self.open = candle_info['open']
+            self.high = candle_info['high']
+            self.low = candle_info['low']
+            self.close = candle_info['close']
+            self.volume = candle_info['volume']
+        
+        elif exchange == "parse_trade":
+            self.timestamp = candle_info['ts']
+            self.open = candle_info['open']
+            self.high = candle_info['high']
+            self.low = candle_info['low']
+            self.close = candle_info['close']
+            self.volume = candle_info['volume']
+            
 
 def tick_todecimals(tick_size: float) -> int:
     tick_size_str = "{0:.8f}".format(tick_size)
