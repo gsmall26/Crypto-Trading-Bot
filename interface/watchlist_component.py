@@ -1,9 +1,11 @@
 import tkinter as tk
 import typing
+import tkmacosx as tkmac
 
 from models import *
 
 from interface.styling import *
+from interface.autocomplete_widget import Autocomplete
 
 
 class Watchlist(tk.Frame):
@@ -23,14 +25,14 @@ class Watchlist(tk.Frame):
         self._binance_label = tk.Label(self._commands_frame, text="Binance", bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
         self._binance_label.grid(row=0, column=0)
 
-        self._binance_entry = tk.Entry(self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR, bg=BG_COLOR_2)
+        self._binance_entry = Autocomplete(self.binance_symbols, self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR, bg=BG_COLOR_2, highlightthickness=False)
         self._binance_entry.bind("<Return>", self._add_binance_symbol) #when user presses return, trigger that function
         self._binance_entry.grid(row=1, column=0)
 
         self._bitmex_label = tk.Label(self._commands_frame, text="Bitmex", bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
         self._bitmex_label.grid(row=0, column=1)
 
-        self._bitmex_entry = tk.Entry(self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR, bg=BG_COLOR_2)
+        self._bitmex_entry = Autocomplete(self.bitmex_symbols, self._commands_frame, fg=FG_COLOR, justify=tk.CENTER, insertbackground=FG_COLOR, bg=BG_COLOR_2, highlightthickness=False)
         self._bitmex_entry.bind("<Return>", self._add_bitmex_symbol) #when user presses return, trigger that function
         self._bitmex_entry.grid(row=1, column=1)
 
@@ -88,7 +90,7 @@ class Watchlist(tk.Frame):
         self.body_widgets['ask'][b_index] = tk.Label(self._table_frame, textvariable=self.body_widgets['ask_var'][b_index], bg=BG_COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)
         self.body_widgets['ask'][b_index].grid(row=b_index, column=3)
 
-        self.body_widgets['remove'][b_index] = tk.Button(self._table_frame, text="X", bg="darkred", fg=FG_COLOR, font=GLOBAL_FONT, command=lambda: self._remove_symbol(b_index)) #command tells us what to do once button is clicked. lambda prevents it from triggering right away
+        self.body_widgets['remove'][b_index] = tkmac.Button(self._table_frame, text="X", borderless=True, bg="darkred", fg=FG_COLOR, font=GLOBAL_FONT, command=lambda: self._remove_symbol(b_index)) #command tells us what to do once button is clicked. lambda prevents it from triggering right away
         self.body_widgets['remove'][b_index].grid(row=b_index, column=4)
 
         self._body_index += 1

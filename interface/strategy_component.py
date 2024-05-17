@@ -1,5 +1,6 @@
 import tkinter as tk
 import typing
+import tkmacosx as tkmac
 
 from interface.styling import *
 
@@ -7,12 +8,17 @@ from connectors.binance_futures import BinanaceFuturesClient
 from connectors.bitmex import BitmexClient
 
 from strategies import TechnicalStrategy, BreakoutStrategy
+from utils import *
 
 class StrategyEditor(tk.Frame): #activate/deactive strategies
     def __init__(self, root, binance: BinanaceFuturesClient, bitmex: BitmexClient, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.root = root
+
+        self._valid_integer = self.register(check_integer_format)
+        self._valid_float = self.register(check_float_format)
+        
 
         self._exchanges = {"Binance": binance, "Bitmex": bitmex}
 
@@ -29,7 +35,7 @@ class StrategyEditor(tk.Frame): #activate/deactive strategies
         self._table_frame = tk.Frame(self, bg=BG_COLOR)
         self._table_frame.pack(side=tk.TOP)
 
-        self._add_button = tk.Button(self._commands_frame, text="Add Strategy", font=GLOBAL_FONT, command=self._add_strategy_row, bg=BG_COLOR_2, fg=FG_COLOR)
+        self._add_button = tkmac.Button(self._commands_frame, text="Add Strategy", font=GLOBAL_FONT, command=self._add_strategy_row, bg=BG_COLOR_2, fg=FG_COLOR, borderless=True)
         self._add_button.pack(side=tk.TOP)
 
         self.body_widgets = {}
@@ -92,13 +98,18 @@ class StrategyEditor(tk.Frame): #activate/deactive strategies
 
                 self.body_widgets[code_name][b_index] = tk.OptionMenu(self._table_frame, self.body_widgets[code_name + "_var"][b_index], *base_param['values']) #*allcontracts breaks down the list. ["a", "b", "c"] -> "a", "b", "c"
 
-                self.body_widgets[code_name][b_index].config(width=base_param['width'])
+                self.body_widgets[code_name][b_index].config(width=base_param['width'], highlightthickness=False, bd=0)
 
             elif base_param['widget'] == tk.Entry:
-                self.body_widgets[code_name][b_index] = tk.Entry(self._table_frame, justify=tk.CENTER)
-            
+                self.body_widgets[code_name][b_index] = tk.Entry(self._table_frame, justify=tk.CENTER, highlightthickness=False, width=base_param['width'])
+
+                if base_param['data_type'] == int:
+                    self.body_widgets[code_name][b_index].config(validate='key', validatecommand=(self._valid_integer, "%P"))
+                elif base_param['data_type'] == float:
+                    self.body_widgets[code_name][b_index].config(validate='key', validatecommand=(self._valid_float, "%P"))
+
             elif base_param['widget'] == tk.Button:
-                self.body_widgets[code_name][b_index] = tk.Button(self._table_frame, text=base_param['text'], bg=base_param['bg'], fg=FG_COLOR, command=lambda frozen_command=base_param['command']: frozen_command(b_index))
+                self.body_widgets[code_name][b_index] = tkmac.Button(self._table_frame, text=base_param['text'], bg=base_param['bg'], fg=FG_COLOR, borderless=True, command=lambda frozen_command=base_param['command']: frozen_command(b_index))
 
             else:
                 continue
@@ -146,7 +157,12 @@ class StrategyEditor(tk.Frame): #activate/deactive strategies
             temp_label.grid(row=row_nb, column=0)
 
             if param['widget'] == tk.Entry:
-                self._extra_input[code_name] = tk.Entry(self._popup_window, bg=BG_COLOR_2, justify=tk.CENTER, fg=FG_COLOR, insertbackground=FG_COLOR)
+                self._extra_input[code_name] = tk.Entry(self._popup_window, bg=BG_COLOR_2, justify=tk.CENTER, fg=FG_COLOR, insertbackground=FG_COLOR, highlightthickness=False)
+
+                if param['data_type'] == int:
+                    self._extra_input[code_name].config(validate='key', validatecommand=(self._valid_integer, "%P"))
+                elif param['data_type'] == float:
+                    self._extra_input[code_name].config(validate='key', validatecommand=(self._valid_float, "%P"))
 
                 if self._additional_parameters[b_index][code_name] is not None:
                     self._extra_input[code_name].insert(tk.END, str(self._additional_parameters[b_index][code_name]))
@@ -158,7 +174,7 @@ class StrategyEditor(tk.Frame): #activate/deactive strategies
             row_nb += 1
 
         #validation button
-        validation_button = tk.Button(self._popup_window, text="Validate", bg=BG_COLOR_2, fg=FG_COLOR, command=lambda: self._validate_parameters(b_index))
+        validation_button = tkmac.Button(self._popup_window, text="Validate", bg=BG_COLOR_2, fg=FG_COLOR, command=lambda: self._validate_parameters(b_index), borderless=True)
 
         validation_button.grid(row=row_nb, column=0, columnspan=2) #placed on first column but occupies two volumns
 
