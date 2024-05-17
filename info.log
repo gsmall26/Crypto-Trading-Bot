@@ -310,3 +310,45 @@
 2024-05-15 15:08:02,525 INFO :: Binanace connection opened
 2024-05-15 15:08:03,033 INFO :: Websocket connected
 2024-05-15 15:08:03,033 INFO :: Bitmex connection opened
+2024-05-15 21:56:14,744 INFO :: Binance Futures Client successfully initialized
+2024-05-15 21:56:15,215 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 21:56:15,542 INFO :: Websocket connected
+2024-05-15 21:56:15,542 INFO :: Binanace connection opened
+2024-05-15 21:56:15,645 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 21:56:15,650 INFO :: Bitmex Client successfully initialized
+2024-05-15 21:56:17,454 INFO :: Websocket connected
+2024-05-15 21:56:17,455 INFO :: Bitmex connection opened
+2024-05-15 21:57:04,916 INFO :: Binance Futures Client successfully initialized
+2024-05-15 21:57:05,090 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 21:57:05,261 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 21:57:05,264 INFO :: Bitmex Client successfully initialized
+2024-05-15 21:57:05,756 INFO :: Websocket connected
+2024-05-15 21:57:05,756 INFO :: Binanace connection opened
+2024-05-15 21:57:06,000 INFO :: Websocket connected
+2024-05-15 21:57:06,000 INFO :: Bitmex connection opened
+2024-05-15 21:57:57,507 INFO :: Binance Futures Client successfully initialized
+2024-05-15 21:57:57,994 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 21:57:58,175 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 21:57:58,179 INFO :: Bitmex Client successfully initialized
+2024-05-15 21:57:58,429 INFO :: Websocket connected
+2024-05-15 21:57:58,429 INFO :: Binanace connection opened
+2024-05-15 21:57:58,931 INFO :: Websocket connected
+2024-05-15 21:57:58,931 INFO :: Bitmex connection opened
+2024-05-15 22:24:01,392 INFO :: Binance Futures Client successfully initialized
+2024-05-15 22:24:01,699 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 22:24:01,872 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 22:24:01,874 INFO :: Bitmex Client successfully initialized
+2024-05-15 22:24:02,479 INFO :: Websocket connected
+2024-05-15 22:24:02,479 INFO :: Binanace connection opened
+2024-05-15 22:24:02,729 INFO :: Websocket connected
+2024-05-15 22:24:02,729 INFO :: Bitmex connection opened
+2024-05-15 22:24:52,033 ERROR :: error from callback <bound method BinanaceFuturesClient._on_message of <connectors.binance_futures.BinanaceFuturesClient object at 0x1281366d0>>: 'e'
+2024-05-15 22:24:52,035 ERROR :: Binanace connection error: 'e'
+2024-05-15 22:26:12,699 INFO :: Binance Futures Client successfully initialized
+2024-05-15 22:26:12,936 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 22:26:13,111 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-15 22:26:13,112 INFO :: Bitmex Client successfully initialized
+2024-05-15 22:26:13,543 INFO :: Websocket connected
+2024-05-15 22:26:13,543 INFO :: Binanace connection opened
+2024-05-15 22:26:13,797 INFO :: Websocket connected
+2024-05-15 22:26:13,797 INFO :: Bitmex connection opened

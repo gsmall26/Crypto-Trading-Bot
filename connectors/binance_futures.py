@@ -153,10 +153,10 @@ class BinanaceFuturesClient:
         return balances
     
 
-    def place_order(self, contract: Contract, side: str, quantity: float, order_type: str, price=None, tif=None) -> OrderStatus:
+    def place_order(self, contract: Contract, order_type: str, quantity: float, side: str, price=None, tif=None) -> OrderStatus:
         data = {} #dictionary of parameters
         data['symbol'] = contract.symbol
-        data['side'] = side
+        data['side'] = side.upper()
         data['quantity'] = round(round(quantity / contract.lot_size) * contract.lot_size, 8)
         data['type'] = order_type
 
@@ -245,13 +245,28 @@ class BinanaceFuturesClient:
                 else:
                     self.prices[symbol]['bid'] = float(data['b'])
                     self.prices[symbol]['ask'] = float(data['a'])
+                
+                #pnl calculations/updates
+                try:
+                    for b_index, strat in self.strategies.items():
+                        if strat.contract.symbol == symbol:
+                            for trade in strat.trades:
+                                if trade.status == "open" and trade.entry_price is not None:
+                                    if trade.side == "long":
+                                        trade.pnl = (self.prices[symbol]['bid'] - trade.entry_price) * trade.quantity
+                                    elif trade.side == "short":
+                                        trade.pnl = (trade.entry_price - self.prices[symbol]['bid']) * trade.quantity
+                except RuntimeError as e:
+                    logger.error("Error while looping through the Binance strategies: %s", e)
+
 
         elif data['e'] == "aggTrade":
             symbol = data['s']
 
             for key, strat in self.strategies.items():
                 if strat.contract.symbol == symbol:
-                    strat.parse_trades(float(data['p']), float(data['q']), data['T'])
+                    res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])
+                    strat.check_trade(res)
         
     
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str): #subscribe to a channel that provides us with market data. parameter is symbol you want data on
@@ -271,6 +286,26 @@ class BinanaceFuturesClient:
             logger.error("Websocket error while subscribing to %s %s updates: %s", len(contracts), channel, e)
             
         self._ws_id += 1
+    
+    def get_trade_size(self, contract: Contract, price: float, balance_pct: float):
+
+        balance = self.get_balances()
+        if balance is not None:
+            if "USDT" in balance:
+                balance = balance['USDT'].wallet_balance
+            else:
+                return None
+
+        else:
+            return None
+        
+        trade_size = (balance * balance_pct / 100) / price
+
+        trade_size = round(round(trade_size / contract.lot_size) * contract.lot_size, 8)
+
+        logger.info("Binance Futures current USDT balance = %s, trade size = %s", balance, trade_size)
+
+        return trade_size
 
 
 
