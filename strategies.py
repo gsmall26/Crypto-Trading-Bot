@@ -10,7 +10,7 @@ from models import *
 
 if TYPE_CHECKING:
     from connectors.bitmex import BitmexClient
-    from connectors.binance_futures import BinanaceFuturesClient
+    from connectors.binance import BinanceClient
 
 logger = logging.getLogger()
 
@@ -18,7 +18,7 @@ TF_EQUIV = {"1m": 60, "5m": 300, "15m": 900, "30m": 1800, "1h": 3600, "4h": 1440
 
 
 class Strategy:
-    def __init__(self, client: Union["BitmexClient", "BinanaceFuturesClient"], contract: Contract, exchange: str,
+    def __init__(self, client: Union["BitmexClient", "BinanceClient"], contract: Contract, exchange: str,
                 timeframe: str, balance_pct: float, take_profit: float, stop_loss: float, strat_name):
         
         self.client = client #can call all methods from two connectors

@@ -1,8 +1,10 @@
 import tkinter as tk
+from tkinter.messagebox import askquestion
 import logging
+import json
 
 from connectors.bitmex import BitmexClient
-from connectors.binance_futures import BinanaceFuturesClient
+from connectors.binance import BinanceClient
 
 from interface.styling import * #access variables in styling file
 from interface.logging_component import Logging
@@ -13,15 +15,23 @@ from interface.strategy_component import StrategyEditor
 logger = logging.getLogger()
 
 class Root(tk.Tk): #root class will inherit from tk.Tk() class
-    def __init__(self, binance: BinanaceFuturesClient, bitmex: BitmexClient) -> None:
+    def __init__(self, binance: BinanceClient, bitmex: BitmexClient) -> None:
         super().__init__() #call to constructor of the parent class tk.Tk
 
         self.binance = binance
         self.bitmex = bitmex
 
         self.title("Trading Bot") #label, name seen at top of display
+        self.protocol("WM_DELETE_WINDOW", self._ask_before_close)
 
         self.configure(bg=BG_COLOR) #altering background of root window
+
+        self.main_menu = tk.Menu(self)
+        self.configure(menu=self.main_menu)
+
+        self.workspace_menu = tk.Menu(self.main_menu, tearoff=False)
+        self.main_menu.add_cascade(label="Workspace", menu=self.workspace_menu)
+        self.workspace_menu.add_command(label="Save workspace", command=self._save_workspace)
 
         #left and right split by creating two frames in the root component
         self._left_frame = tk.Frame(self, bg=BG_COLOR) #self = root
@@ -45,6 +55,18 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
         self._update_ui()
 
         #test that displays message to log: self.logging_frame.add_log("This is a test message")
+
+    def _ask_before_close(self): 
+        result = askquestion("Confirmation", "Do you really want to exit the application?") #whether user wants to close the application
+        if result == "yes":
+            self.binance.reconnect = False
+            self.bitmex.reconnect = False
+
+            self.binance.ws.close()
+            self.bitmex.ws.close()
+
+            self.destroy()
+        
 
     def _update_ui(self):
         #logs
@@ -135,4 +157,45 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
         self.after(1500, self._update_ui)
 
 
+    def _save_workspace(self):
+
+        #watchlist
+        watchlist_symbols = []
+
+        for key, value in self._watchlist_frame.body_widgets['symbol'].items():
+            symbol = value.cget("text")
+            exchange = self._watchlist_frame.body_widgets['exchange'][key].cget("text")
+
+            watchlist_symbols.append((symbol, exchange))
+
+        self._watchlist_frame.db.save("watchlist", watchlist_symbols)
+
+        #strategies
+
+        strategies = []
+
+        strat_widgets = self._strategy_frame.body_widgets
+        
+        for b_index in strat_widgets['contract']:
+
+            strategy_type = strat_widgets['strategy_type_var'][b_index].get()
+            contract = strat_widgets['contract_var'][b_index].get()
+            timeframe = strat_widgets['timeframe_var'][b_index].get()
+            balance_pct = strat_widgets['balance_pct'][b_index].get()
+            take_profit = strat_widgets['take_profit'][b_index].get()
+            stop_loss = strat_widgets['stop_loss'][b_index].get()
+
+            extra_params = {}
+
+            for param in self._strategy_frame._extra_params[strategy_type]:
+                code_name = param['code_name']
+
+                extra_params[code_name] = self._strategy_frame.additional_parameters[b_index][code_name]
+
+            strategies.append((strategy_type, contract, timeframe, balance_pct, take_profit, stop_loss,
+                                json.dumps(extra_params),))
+        
+        self._strategy_frame.db.save("strategies", strategies)
+
+        self.logging_frame.add_log("Workspace saved")
 

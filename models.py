@@ -6,12 +6,16 @@ BITMEX_TF_MINUTES = {"1m": 1, "5m": 5, "1h": 60, "1d": 1440}
 
 class Balance:
     def __init__(self, info, exchange): #info is dict, create instance variables for all keys of the dict
-        if exchange == "binanace":
+        if exchange == "binance_futures":
             self.initial_margin = float(info['initialMargin'])
             self.maintenance_margin = float(info['maintMargin'])
             self.margin_balance = float(info['marginBalance'])
             self.wallet_balance = float(info['walletBalance'])
             self.unrealized_pnl = float(info['unrealizedProfit'])
+        
+        elif exchange == "binance_spot":
+            self.free = float(info['free'])
+            self.locked = float(info['locked'])
         
         elif exchange == "bitmex": #keys are different for bitmex vs binanace
             self.initial_margin = info['initMargin'] * BITMEX_MULTIPLIER #convert satoshi to bitcoin
@@ -22,7 +26,7 @@ class Balance:
 
 class Candle: 
     def __init__(self, candle_info, timeframe, exchange): #creating candel models for get_historical_candles() method
-        if exchange == "binance": 
+        if exchange == ["binance_futures", "binance_spot"]:
             self.timestamp = candle_info[0]
             self.open = float(candle_info[1])
             self.high = float(candle_info[2])
@@ -56,7 +60,7 @@ def tick_todecimals(tick_size: float) -> int:
     while tick_size_str[-1] == "0":
         tick_size_str = tick_size_str[:-1]
 
-    split_tick = tick_size_str.split("")
+    split_tick = tick_size_str.split(".")
 
     if len(split_tick) > 1:
         return len(split_tick[1]) #"0.001" gets split by the . and selects all of it aft
@@ -65,7 +69,7 @@ def tick_todecimals(tick_size: float) -> int:
 
 class Contract: #creating contract models for get_contracts() method
     def __init__(self, contract_info, exchange):
-        if exchange == "binance":
+        if exchange == "binance_futures":
             self.symbol = contract_info['symbol']
             self.base_asset = contract_info['baseAsset']
             self.quote_asset = contract_info['quoteAsset']
@@ -73,6 +77,20 @@ class Contract: #creating contract models for get_contracts() method
             self.quantity_decimals = contract_info['quantityPrecision'] #round quantity to decimal of an order accepted by Binance
             self.tick_size = 1 / pow(10, contract_info['pricePrecision'])
             self.lot_size = 1 / pow(10, contract_info['quantityPrecision'])
+        
+        elif exchange == "binance_spot":
+            self.symbol = contract_info['symbol']
+            self.base_asset = contract_info['baseAsset']
+            self.quote_asset = contract_info['quoteAsset']
+
+            for b_filter in contract_info['filters']:
+                if b_filter['filterType'] == 'PRICE_FILTER':
+                    self.tick_size = float(b_filter['tickSize'])
+                    self.price_decimals = tick_todecimals(float(b_filter['tickSize']))
+
+                if b_filter['filterType'] == 'LOT_SIZE':
+                    self.lot_size = float(b_filter['stepSize'])
+                    self.quantity_decimals = tick_todecimals(float(b_filter['stepSize']))
         
         elif exchange == "bitmex": #keys are different for bitmex vs binanace
             self.symbol = contract_info['symbol']
@@ -97,15 +115,23 @@ class Contract: #creating contract models for get_contracts() method
 
 class OrderStatus:
     def __init__(self, order_info, exchange):
-        if exchange == "binance":
+        if exchange == "binance_futures":
             self.order_id = order_info['orderId']
             self.status = order_info['status'].lower()
             self.avg_price = float(order_info['avgPrice'])
+            self.executed_qty = float(order_info['executedQty'])
+        
+        elif exchange == "binance_spot":
+            self.order_id = order_info['orderId']
+            self.status = order_info['status'].lower()
+            self.avg_price = float(order_info['avgPrice'])
+            self.executed_qty = float(order_info['executedQty'])
         
         elif exchange == "bitmex":
-            self.order_id = order_info['orderId']
+            self.order_id = order_info['orderID']
             self.status = order_info['ordStatus'].lower()
             self.avg_price = order_info['avgPx']
+            self.executed_qty = order_info['cumQty']
 
 class Trade:
     def __init__(self, trade_info):

@@ -424,3 +424,235 @@
 2024-05-17 15:33:50,405 INFO :: Binanace connection opened
 2024-05-17 15:33:50,622 INFO :: Websocket connected
 2024-05-17 15:33:50,622 INFO :: Bitmex connection opened
+2024-05-17 16:39:03,233 INFO :: Binance Futures Client successfully initialized
+2024-05-17 16:39:03,478 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-17 16:39:03,682 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-17 16:39:03,684 INFO :: Bitmex Client successfully initialized
+2024-05-17 16:39:04,236 INFO :: Websocket connected
+2024-05-17 16:39:04,236 INFO :: Binanace connection opened
+2024-05-17 16:39:04,491 INFO :: Websocket connected
+2024-05-17 16:39:04,492 INFO :: Bitmex connection opened
+2024-05-17 16:39:51,365 INFO :: Binance Futures Client successfully initialized
+2024-05-17 16:39:51,588 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-17 16:39:51,766 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-17 16:39:51,768 INFO :: Bitmex Client successfully initialized
+2024-05-17 16:39:52,177 INFO :: Websocket connected
+2024-05-17 16:39:52,177 INFO :: Binanace connection opened
+2024-05-17 16:39:52,430 INFO :: Websocket connected
+2024-05-17 16:39:52,430 INFO :: Bitmex connection opened
+2024-05-17 16:41:00,722 INFO :: Binance Futures Client successfully initialized
+2024-05-17 16:41:01,009 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-17 16:41:01,192 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-17 16:41:01,195 INFO :: Bitmex Client successfully initialized
+2024-05-17 16:41:01,611 INFO :: Websocket connected
+2024-05-17 16:41:01,611 INFO :: Binanace connection opened
+2024-05-17 16:41:01,883 INFO :: Websocket connected
+2024-05-17 16:41:01,884 INFO :: Bitmex connection opened
+2024-05-17 16:54:59,797 INFO :: Binance Futures Client successfully initialized
+2024-05-17 16:55:00,306 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-17 16:55:00,504 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-17 16:55:00,509 INFO :: Bitmex Client successfully initialized
+2024-05-17 16:55:00,787 INFO :: Websocket connected
+2024-05-17 16:55:00,787 INFO :: Binanace connection opened
+2024-05-17 16:55:01,244 INFO :: Websocket connected
+2024-05-17 16:55:01,244 INFO :: Bitmex connection opened
+2024-05-17 16:55:20,841 ERROR :: error from callback <bound method BinanaceFuturesClient._on_message of <connectors.binance_futures.BinanaceFuturesClient object at 0x10fc0b190>>: 'e'
+2024-05-17 16:55:20,843 ERROR :: Binanace connection error: 'e'
+2024-05-18 14:23:27,892 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:23:28,365 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:23:28,711 INFO :: Websocket connected
+2024-05-18 14:23:28,712 INFO :: Binanace connection opened
+2024-05-18 14:23:28,818 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:23:28,820 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:23:29,959 INFO :: Websocket connected
+2024-05-18 14:23:29,959 INFO :: Bitmex connection opened
+2024-05-18 14:35:37,155 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:35:37,364 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:35:37,553 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:35:37,556 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:35:38,048 INFO :: Websocket connected
+2024-05-18 14:35:38,048 INFO :: Binanace connection opened
+2024-05-18 14:35:38,298 INFO :: Websocket connected
+2024-05-18 14:35:38,298 INFO :: Bitmex connection opened
+2024-05-18 14:38:19,048 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:38:19,272 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:38:19,712 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:38:19,715 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:38:20,014 INFO :: Websocket connected
+2024-05-18 14:38:20,014 INFO :: Binanace connection opened
+2024-05-18 14:38:20,632 INFO :: Websocket connected
+2024-05-18 14:38:20,633 INFO :: Bitmex connection opened
+2024-05-18 14:47:21,755 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:47:21,978 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:47:22,148 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:47:22,150 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:47:22,650 INFO :: Websocket connected
+2024-05-18 14:47:22,651 INFO :: Binanace connection opened
+2024-05-18 14:47:22,902 INFO :: Websocket connected
+2024-05-18 14:47:22,903 INFO :: Bitmex connection opened
+2024-05-18 14:47:22,923 ERROR :: error from callback <bound method BinanaceFuturesClient._on_message of <connectors.binance_futures.BinanaceFuturesClient object at 0x104574bd0>>: 'e'
+2024-05-18 14:47:22,923 ERROR :: Binanace connection error: 'e'
+2024-05-18 14:47:53,919 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:47:54,105 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:47:54,296 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:47:54,298 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:47:54,678 INFO :: Websocket connected
+2024-05-18 14:47:54,679 INFO :: Binanace connection opened
+2024-05-18 14:47:54,915 INFO :: Websocket connected
+2024-05-18 14:47:54,915 INFO :: Bitmex connection opened
+2024-05-18 14:48:23,704 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:48:24,262 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:48:24,445 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:48:24,447 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:48:24,629 INFO :: Websocket connected
+2024-05-18 14:48:24,629 INFO :: Binanace connection opened
+2024-05-18 14:48:25,068 INFO :: Websocket connected
+2024-05-18 14:48:25,068 INFO :: Bitmex connection opened
+2024-05-18 14:49:58,429 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:49:58,884 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:49:59,257 INFO :: Websocket connected
+2024-05-18 14:49:59,257 INFO :: Binanace connection opened
+2024-05-18 14:49:59,313 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:49:59,315 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:50:00,129 INFO :: Websocket connected
+2024-05-18 14:50:00,134 INFO :: Bitmex connection opened
+2024-05-18 14:50:16,592 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:50:17,017 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:50:17,181 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:50:17,183 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:50:17,361 INFO :: Websocket connected
+2024-05-18 14:50:17,361 INFO :: Binanace connection opened
+2024-05-18 14:50:17,803 INFO :: Websocket connected
+2024-05-18 14:50:17,803 INFO :: Bitmex connection opened
+2024-05-18 14:50:38,962 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:50:39,130 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:50:39,323 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:50:39,324 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:50:39,746 INFO :: Websocket connected
+2024-05-18 14:50:39,747 INFO :: Binanace connection opened
+2024-05-18 14:50:40,377 INFO :: Websocket connected
+2024-05-18 14:50:40,378 INFO :: Bitmex connection opened
+2024-05-18 14:52:05,191 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:52:05,411 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:52:05,581 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:52:05,583 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:52:06,007 INFO :: Websocket connected
+2024-05-18 14:52:06,007 INFO :: Binanace connection opened
+2024-05-18 14:52:06,289 INFO :: Websocket connected
+2024-05-18 14:52:06,289 INFO :: Bitmex connection opened
+2024-05-18 14:52:56,602 ERROR :: error from callback <bound method BinanaceFuturesClient._on_message of <connectors.binance_futures.BinanaceFuturesClient object at 0x121ba5490>>: 'e'
+2024-05-18 14:52:56,603 ERROR :: Binanace connection error: 'e'
+2024-05-18 14:53:12,912 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:53:13,412 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:53:13,598 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:53:13,600 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:53:13,840 INFO :: Websocket connected
+2024-05-18 14:53:13,841 INFO :: Binanace connection opened
+2024-05-18 14:53:14,396 INFO :: Websocket connected
+2024-05-18 14:53:14,396 INFO :: Bitmex connection opened
+2024-05-18 14:53:50,187 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:53:50,455 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:53:50,617 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:53:50,619 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:53:51,015 INFO :: Websocket connected
+2024-05-18 14:53:51,015 INFO :: Binanace connection opened
+2024-05-18 14:53:51,475 INFO :: Websocket connected
+2024-05-18 14:53:51,475 INFO :: Bitmex connection opened
+2024-05-18 14:54:52,448 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:54:52,622 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:54:52,799 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:54:52,801 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:54:53,206 INFO :: Websocket connected
+2024-05-18 14:54:53,206 INFO :: Binanace connection opened
+2024-05-18 14:54:53,600 INFO :: Websocket connected
+2024-05-18 14:54:53,602 INFO :: Bitmex connection opened
+2024-05-18 14:56:17,343 INFO :: Binance Futures Client successfully initialized
+2024-05-18 14:56:17,689 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:56:17,866 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 14:56:17,869 INFO :: Bitmex Client successfully initialized
+2024-05-18 14:56:18,274 INFO :: Websocket connected
+2024-05-18 14:56:18,274 INFO :: Binanace connection opened
+2024-05-18 14:56:18,502 INFO :: Websocket connected
+2024-05-18 14:56:18,502 INFO :: Bitmex connection opened
+2024-05-18 19:52:21,047 INFO :: Binance Futures Client successfully initialized
+2024-05-18 19:52:21,287 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 19:52:21,727 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 19:52:21,731 INFO :: Bitmex Client successfully initialized
+2024-05-18 19:52:22,073 INFO :: Websocket connected
+2024-05-18 19:52:22,073 INFO :: Binanace connection opened
+2024-05-18 19:52:22,522 INFO :: Websocket connected
+2024-05-18 19:52:22,522 INFO :: Bitmex connection opened
+2024-05-18 19:52:43,513 ERROR :: error from callback <bound method BinanaceFuturesClient._on_message of <connectors.binance_futures.BinanaceFuturesClient object at 0x1032b16d0>>: 'e'
+2024-05-18 19:52:43,516 ERROR :: Binanace connection error: 'e'
+2024-05-18 19:55:42,760 INFO :: Binance Futures Client successfully initialized
+2024-05-18 19:55:43,026 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 19:55:43,295 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 19:55:43,300 INFO :: Bitmex Client successfully initialized
+2024-05-18 19:55:43,789 INFO :: Websocket connected
+2024-05-18 19:55:43,789 INFO :: Binanace connection opened
+2024-05-18 19:55:44,027 INFO :: Websocket connected
+2024-05-18 19:55:44,027 INFO :: Bitmex connection opened
+2024-05-18 20:02:56,154 INFO :: Binance Futures Client successfully initialized
+2024-05-18 20:02:56,376 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:02:56,537 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:02:56,539 INFO :: Bitmex Client successfully initialized
+2024-05-18 20:02:56,901 INFO :: Websocket connected
+2024-05-18 20:02:56,901 INFO :: Binanace connection opened
+2024-05-18 20:02:57,162 INFO :: Websocket connected
+2024-05-18 20:02:57,162 INFO :: Bitmex connection opened
+2024-05-18 20:04:43,133 ERROR :: error from callback <bound method BinanaceFuturesClient._on_message of <connectors.binance_futures.BinanaceFuturesClient object at 0x104f716d0>>: 'e'
+2024-05-18 20:04:43,139 ERROR :: Binanace connection error: 'e'
+2024-05-18 20:21:52,787 INFO :: Binance Futures Client successfully initialized
+2024-05-18 20:21:53,029 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:21:53,235 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:21:53,237 INFO :: Bitmex Client successfully initialized
+2024-05-18 20:21:53,812 INFO :: Websocket connected
+2024-05-18 20:21:53,813 INFO :: Binanace connection opened
+2024-05-18 20:21:54,086 INFO :: Websocket connected
+2024-05-18 20:21:54,086 INFO :: Bitmex connection opened
+2024-05-18 20:23:27,087 INFO :: Binance Futures Client successfully initialized
+2024-05-18 20:23:27,312 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:23:27,478 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:23:27,480 INFO :: Bitmex Client successfully initialized
+2024-05-18 20:23:27,967 INFO :: Websocket connected
+2024-05-18 20:23:27,967 INFO :: Binanace connection opened
+2024-05-18 20:23:28,221 INFO :: Websocket connected
+2024-05-18 20:23:28,221 INFO :: Bitmex connection opened
+2024-05-18 20:34:33,634 INFO :: Binance Futures Client successfully initialized
+2024-05-18 20:34:33,835 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:34:34,014 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:34:34,017 INFO :: Bitmex Client successfully initialized
+2024-05-18 20:34:34,578 INFO :: Websocket connected
+2024-05-18 20:34:34,578 INFO :: Binanace connection opened
+2024-05-18 20:34:34,847 INFO :: Websocket connected
+2024-05-18 20:34:34,847 INFO :: Bitmex connection opened
+2024-05-18 20:34:42,993 ERROR :: error from callback <bound method BinanaceFuturesClient._on_message of <connectors.binance_futures.BinanaceFuturesClient object at 0x10b797a90>>: 'e'
+2024-05-18 20:34:42,995 ERROR :: Binanace connection error: 'e'
+2024-05-18 20:34:45,125 WARNING :: Binance Websocket connection closed
+2024-05-18 20:34:48,132 WARNING :: Bitmex Websocket connection closed
+2024-05-18 20:34:51,954 INFO :: Binance Futures Client successfully initialized
+2024-05-18 20:34:52,137 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:34:52,317 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:34:52,319 INFO :: Bitmex Client successfully initialized
+2024-05-18 20:34:52,692 INFO :: Websocket connected
+2024-05-18 20:34:52,692 INFO :: Binanace connection opened
+2024-05-18 20:34:53,019 INFO :: Websocket connected
+2024-05-18 20:34:53,019 INFO :: Bitmex connection opened
+2024-05-18 20:40:21,373 INFO :: Binance Futures Client successfully initialized
+2024-05-18 20:40:21,848 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:40:22,016 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-18 20:40:22,020 INFO :: Bitmex Client successfully initialized
+2024-05-18 20:40:22,312 INFO :: Websocket connected
+2024-05-18 20:40:22,312 INFO :: Binanace connection opened
+2024-05-18 20:40:22,753 INFO :: Websocket connected
+2024-05-18 20:40:22,753 INFO :: Bitmex connection opened
+2024-05-19 17:16:25,836 INFO :: Binance Futures Client successfully initialized
+2024-05-19 17:16:26,057 ERROR :: Error while making GET request to /api/v1/instrument/active: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-19 17:16:26,469 ERROR :: Error while making GET request to /api/v1/user/margin: {'error': {'message': 'Missing authorization headers: api-signature', 'name': 'HTTPError'}} (error code 401)
+2024-05-19 17:16:26,474 INFO :: Bitmex Client successfully initialized
+2024-05-19 17:16:26,800 INFO :: Websocket connected
+2024-05-19 17:16:26,800 INFO :: Binanace connection opened
+2024-05-19 17:16:26,800 ERROR :: error from callback <bound method BinanaceFuturesClient._on_open of <connectors.binance_futures.BinanaceFuturesClient object at 0x1066df190>>: 'Contract' object has no attribute 'symbol'
+2024-05-19 17:16:26,800 ERROR :: Binanace connection error: 'Contract' object has no attribute 'symbol'
+2024-05-19 17:16:27,241 INFO :: Websocket connected
+2024-05-19 17:16:27,242 INFO :: Bitmex connection opened

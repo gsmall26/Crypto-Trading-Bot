@@ -1,5 +1,3 @@
-
-
 def check_integer_format(text: str) -> bool:
     if text == "":
         return True
@@ -16,7 +14,7 @@ def check_integer_format(text: str) -> bool:
 
 
 def check_float_format(text: str) -> bool:
-    print(text)
+    # print(text)
     if text == "":
         return True
     

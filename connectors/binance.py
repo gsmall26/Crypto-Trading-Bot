@@ -19,17 +19,30 @@ from strategies import TechnicalStrategy, BreakoutStrategy
 logger = logging.getLogger() # Binance connector
 
 
-class BinanaceFuturesClient:
-    def __init__(self, public_key: str, secret_key: str, testnet: bool): #specifying the data type of arguments
-        if testnet:
-            self._base_url = "https://testnet.binancefuture.com"
-            self._wss_url = "wss://stream.binancefuture.com/ws" #testnet environment
-            #need base url for websocket server: 2 urls, one for testnet environment and one for live environment
-        else:
-            self._base_url = "https://fapi.binance.com"
-            self._wss_url = "wss://fstream.binance.com/ws" #live environment
-
+class BinanceClient:
+    def __init__(self, public_key: str, secret_key: str, testnet: bool, futures: bool): #specifying the data type of arguments
         
+        self.futures = futures
+
+        if self.futures:
+            self.platform = "binance_futures"
+            if testnet:
+                self._base_url = "https://testnet.binancefuture.com"
+                self._wss_url = "wss://stream.binancefuture.com/ws" #testnet environment
+                #need base url for websocket server: 2 urls, one for testnet environment and one for live environment
+            else:
+                self._base_url = "https://fapi.binance.com"
+                self._wss_url = "wss://fstream.binance.com/ws" #live environment
+        else:
+            self.platform = "binance_spot"
+            if testnet:
+                self._base_url = "https://testnet.binance.vision"
+                self._wss_url = "wss://testnet.binance.vision/ws"
+
+            else:
+                self._base_url = "https://api.binance.com"
+                self._wss_url = "wss://stream.binance.com:9443/ws" 
+            
         self._public_key = public_key
         self._secret_key = secret_key
 
@@ -44,7 +57,8 @@ class BinanaceFuturesClient:
         self.logs = []
 
         self._ws_id = 1 #increment any time we call subscribe channel method
-        self._ws = None
+        self.ws: websocket.WebSocketApp
+        self.reconnect = True
 
         t = threading.Thread(target=self._start_ws) #creating thread object
         t.start() #start
@@ -93,13 +107,17 @@ class BinanaceFuturesClient:
 
 
     def get_contracts(self) -> typing.Dict[str, Contract]: #returns a dictionary with strings as keys and Contract objects as values
-        exchange_info = self._make_request("GET", "/fapi/v1/exchangeInfo", {})
+        
+        if self.futures:
+            exchange_info = self._make_request("GET", "/fapi/v1/exchangeInfo", {})
+        else:
+            exchange_info = self._make_request("GET", "/api/v3/exchangeInfo", {})
 
         contracts = {}
 
         if exchange_info is not None:
             for contract_data in exchange_info['symbols']:
-                contracts[contract_data['symbol']] = Contract(contract_data, "binance")
+                contracts[contract_data['symbol']] = Contract(contract_data, self.platform)
         
         return contracts #can access instance variables by: contracts['BTCUSDT'].instance variable
 
@@ -144,7 +162,10 @@ class BinanaceFuturesClient:
 
         balances = {} #key will be asset name, value will be information about asset
 
-        account_data = self._make_request("GET", "/fapi/v2/account", data)
+        if self.futures:
+            account_data = self._make_request("GET", "/fapi/v2/account", data)
+        else:
+            account_data = self._make_request("GET", "/api/v3/account", data)
 
         if account_data is not None: #if request was successful
             for a in account_data['assets']: #loop through information in assets list
@@ -210,11 +231,14 @@ class BinanaceFuturesClient:
     
 
     def _start_ws(self): #starts connection and assign a certain function when an event occurs
-        self._ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close, on_error=self._on_error, #websocketApp object. first argument is websocket url, others to specify call back
+        self.ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close, on_error=self._on_error, #websocketApp object. first argument is websocket url, others to specify call back
                                     on_message=self._on_message)
         while True:
             try:
-                self._ws.run_forever() #infinite loop waiting for messages from server. when message is received, callback function can be triggered
+                if self.reconnect:
+                    self.ws.run_forever() #infinite loop waiting for messages from server. when message is received, callback function can be triggered
+                else:
+                    break
             except Exception as e:
                 logger.error("Binance error in run_forever() method: %s", e)
             time.sleep(2) #2 second pause
@@ -226,7 +250,7 @@ class BinanaceFuturesClient:
         self.subscribe_channel(list(self.contracts.values()), "aggTrade")
 
 
-    def _on_close(self, ws):
+    def _on_close(self, ws, close_status_code, close_msg):
         logger.warning("Binance Websocket connection closed")
     
     def _on_error(self, ws, msg: str):
@@ -281,7 +305,7 @@ class BinanaceFuturesClient:
 
         #send() expects string not dict. json.dumps(data) converts dict to JSON string. similar to query string idea
         try:
-            self._ws.send(json.dumps(data)) #send() to send JSON object through the websocket connection
+            self.ws.send(json.dumps(data)) #send() to send JSON object through the websocket connection
         except Exception as e:
             logger.error("Websocket error while subscribing to %s %s updates: %s", len(contracts), channel, e)
             

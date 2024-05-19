@@ -8,8 +8,8 @@ class Autocomplete(tk.Entry):
 
         self._symbols = symbols
 
-        self._lb = tk.Listbox
-        self._lb_open = False
+        self._lb: tk.Listbox
+        self._lb_open = False #if Listbox is open or not
 
         self.bind("<Up>", self._up_down)
         self.bind("<Down>", self._up_down)
@@ -21,7 +21,7 @@ class Autocomplete(tk.Entry):
 
     def _changed(self, var_name: str, index: str, mode: str):
 
-        self._var.set(self._var.get().upper())
+        self._var.set(self._var.get().upper()) #content of tk.Entry becomes uppercase
 
         if self._var.get() == "":
             if self._lb_open:
@@ -29,8 +29,8 @@ class Autocomplete(tk.Entry):
                 self._lb_open = False
         else:
             if not self._lb_open:
-                self._lb = tk.Listbox(height=8)
-                self._lb.place(x=self.winfo_x() + self.winfo_width(), y=self.winfo_y() + self.winfo_height() + 10)
+                self._lb = tk.Listbox(height=8) #limits # of items in Listbox
+                self._lb.place(x=self.winfo_x() + self.winfo_width(), y=self.winfo_y() + self.winfo_height() + 40) #COULD BE 10
                 
                 self._lb_open = True
 
@@ -43,11 +43,11 @@ class Autocomplete(tk.Entry):
                 except tk.TclError:
                     pass
 
-                for symbol in symbols_matched:
+                for symbol in symbols_matched[:8]: #only first 8 elements to match Listbox
                     self._lb.insert(tk.END, symbol)
 
             else:
-                if self._lb_open:
+                if self._lb_open: #if it was open, close it
                     self._lb.destroy()
                     self._lb_open = False
 

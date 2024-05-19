@@ -2,6 +2,7 @@ import logging
 import requests
 import time
 import typing
+import collections
 
 from urllib.parse import urlencode
 
@@ -23,6 +24,10 @@ logger = logging.getLogger()
 
 class BitmexClient:
     def __init__(self, public_key: str, secret_key: str, testnet: bool):
+
+        self.futures = True
+        self.platform = "bitmex"
+
         if testnet:
             self._base_url = "https://testnet.bitmex.com"
             self._wss_url = "wss://testnet.bitmex.com/realtime"
@@ -33,7 +38,8 @@ class BitmexClient:
         self._public_key = public_key
         self._secret_key = secret_key
 
-        self._ws = None #websocket app object
+        self.ws: websocket.WebSocketApp #websocket app object
+        self.reconnect = True
 
         self.contracts = self.get_contracts()
         self.balances = self.get_balances()
@@ -63,7 +69,7 @@ class BitmexClient:
         expires = str(int(time.time()) + 5)
         headers['api-expires'] = expires
         headers['api-key'] = self._public_key
-        headers['api-signatures'] = self._generate_signature(method, endpoint, expires, data)
+        headers['api-signature'] = self._generate_signature(method, endpoint, expires, data)
 
         if method == "GET": #http method
             try:
@@ -105,7 +111,9 @@ class BitmexClient:
             for s in instruments:
                 contracts[s['symbol']] = Contract(s, "bitmex")
         
-        return contracts
+        # return contracts
+        return collections.OrderedDict(sorted(contracts.items()))
+
     
     def get_balances(self) -> typing.Dict[str, Balance]:
         data = {}
@@ -130,12 +138,14 @@ class BitmexClient:
         data['count'] = 500
         data['reverse'] = True #show newest
 
-        raw_candles = self._make_request("GET", "api/v1/trade/bucketed", data)
+        raw_candles = self._make_request("GET", "/api/v1/trade/bucketed", data)
 
         candles = []
 
         if raw_candles is not None:
             for c in reversed(raw_candles):
+                if c['open'] is None or c['close'] is None:
+                    continue
                 candles.append(Candle(c, timeframe, "bitmex"))
 
         return candles
@@ -187,11 +197,15 @@ class BitmexClient:
         
     
     def _start_ws(self): #starts connection and assign a certain function when an event occurs
-        self._ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close, on_error=self._on_error, #websocketApp object. first argument is websocket url, others to specify call back
-                                    on_message=self._on_message)
+        self.ws = websocket.WebSocketApp(self._wss_url, on_open=self._on_open, on_close=self._on_close, on_error=self._on_error, on_message=self._on_message) #websocketApp object. first argument is websocket url, others to specify call back
+        
         while True:
             try:
-                self._ws.run_forever() #infinite loop waiting for messages from server. when message is received, callback function can be triggered
+                if self.reconnect:
+                    self.ws.run_forever() #infinite loop waiting for messages from server. when message is received, callback function can be triggered
+                else:
+                    break
+
             except Exception as e:
                 logger.error("Bitmex error in run_forever() method: %s", e)
             time.sleep(2) #2 second pause
@@ -202,7 +216,7 @@ class BitmexClient:
         self.subscribe_channel("instrument") #when connection opens, subscribe to channel
         self.subscribe_channel("trade")
 
-    def _on_close(self, ws):
+    def _on_close(self, ws, close_status_code, close_msg):
         logger.warning("Bitmex Websocket connection closed")
     
     def _on_error(self, ws, msg: str):
@@ -274,7 +288,7 @@ class BitmexClient:
         data['args'].append(topic)
 
         try:
-            self._ws.send(json.dumps(data)) #send() to send JSON object through the websocket connection
+            self.ws.send(json.dumps(data)) #send() to send JSON object through the websocket connection
         except Exception as e:
             logger.error("Websocket error while subscribing to %s: %s", topic, e)
     
