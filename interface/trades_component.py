@@ -37,10 +37,10 @@ class TradesWatch(tk.Frame):
 
         for h in self._headers:
             self.body_widgets[h] = {}
-            if h in ["status", "pnl"]:
+            if h in ["status", "pnl", "quantity"]:
                 self.body_widgets[h + "_var"] = {}
 
-            self._body_index = 0
+        self._body_index = 0
     
     def add_trade(self, trade: Trade):
 

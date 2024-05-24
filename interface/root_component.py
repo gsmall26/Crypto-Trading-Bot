@@ -41,16 +41,16 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
         self._right_frame.pack(side=tk.LEFT) #left has priority
 
         self._watchlist_frame = Watchlist(self.binance.contracts, self.bitmex.contracts, self._left_frame, bg=BG_COLOR)
-        self._watchlist_frame.pack(side=tk.TOP)
+        self._watchlist_frame.pack(side=tk.TOP, padx=10)
 
         self.logging_frame = Logging(self._left_frame, bg=BG_COLOR) #parent widget is left fraome
-        self.logging_frame.pack(side=tk.TOP)
+        self.logging_frame.pack(side=tk.TOP, pady=15)
 
         self._strategy_frame = StrategyEditor(self, self.binance, self.bitmex, self._right_frame, bg=BG_COLOR)
-        self._strategy_frame.pack(side=tk.TOP)
+        self._strategy_frame.pack(side=tk.TOP, pady=15)
 
         self._trades_frame = TradesWatch(self._right_frame, bg=BG_COLOR)
-        self._trades_frame.pack(side=tk.TOP)
+        self._trades_frame.pack(side=tk.TOP, pady=15)
 
         self._update_ui()
 
@@ -65,7 +65,7 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
             self.binance.ws.close()
             self.bitmex.ws.close()
 
-            self.destroy()
+            self.destroy() #destroys UI and terminates program
         
 
     def _update_ui(self):
@@ -89,7 +89,7 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
             try:
                 for b_index, strat in client.strategies.items():
                     for log in strat.logs:
-                        if not log['dispalyed']:
+                        if not log['displayed']:
                             self.logging_frame.add_log(log['log'])
                             log['displayed'] = True
 
@@ -97,14 +97,15 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
                         if trade.time not in self._trades_frame.body_widgets['symbol']:
                             self._trades_frame.add_trade(trade)
 
-                        if trade.contract.exchange == "binance":
+                        if "binance" in trade.contract.exchange:
                             precision = trade.contract.price_decimals
                         else:
-                            precision = 8 #pnl will always be in bitcoin
+                            precision = 8 
 
                         pnl_str = "{0:.{prec}f}".format(trade.pnl, prec=precision)
                         self._trades_frame.body_widgets['pnl_var'][trade.time].set(pnl_str)
                         self._trades_frame.body_widgets['status_var'][trade.time].set(trade.status.capitalize())
+                        self._trades_frame.body_widgets['quantity_var'][trade.time].set(trade.quantity)
                         
 
             except RuntimeError as e:
@@ -121,7 +122,10 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
                     if symbol not in self.binance.contracts:
                         continue
 
-                    if symbol not in self.binance.prices: #check that prices dictionary has key with our symbol
+                    if symbol not in self.binance.ws_subscriptions["bookTicker"] and self.binance.ws_connected:
+                        self.binance.subscribe_channel([self.binance.contracts[symbol]], "bookTicker")
+
+                    if symbol not in self.binance.prices:
                         self.binance.get_bid_ask(self.binance.contracts[symbol])
                         continue
                     
@@ -187,7 +191,7 @@ class Root(tk.Tk): #root class will inherit from tk.Tk() class
 
             extra_params = {}
 
-            for param in self._strategy_frame._extra_params[strategy_type]:
+            for param in self._strategy_frame.extra_params[strategy_type]:
                 code_name = param['code_name']
 
                 extra_params[code_name] = self._strategy_frame.additional_parameters[b_index][code_name]

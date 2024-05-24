@@ -2,6 +2,7 @@ import logging
 import requests
 import time
 import typing # in order to type more complex variables, strings, floating numbers, etc. ex: specifying an argument needs to be passed as a dict: typing.Dict
+import collections
 
 from urllib.parse import urlencode
 import hmac
@@ -46,7 +47,7 @@ class BinanceClient:
         self._public_key = public_key
         self._secret_key = secret_key
 
-        self._headers = {'X-MBX-APIKEY' : self._public_key}
+        self._headers = {'X-MBX-APIKEY': self._public_key}
 
         self.contracts = self.get_contracts()
         self.balances = self.get_balances()
@@ -59,6 +60,8 @@ class BinanceClient:
         self._ws_id = 1 #increment any time we call subscribe channel method
         self.ws: websocket.WebSocketApp
         self.reconnect = True
+        self.ws_connected = False
+        self.ws_subscriptions = {"bookTicker": [], "aggTrade": []}
 
         t = threading.Thread(target=self._start_ws) #creating thread object
         t.start() #start
@@ -119,22 +122,25 @@ class BinanceClient:
             for contract_data in exchange_info['symbols']:
                 contracts[contract_data['symbol']] = Contract(contract_data, self.platform)
         
-        return contracts #can access instance variables by: contracts['BTCUSDT'].instance variable
+        return collections.OrderedDict(sorted(contracts.items()))  #sorts keys of the dictionary alphabetically
 
     
-
     def get_historical_candles(self, contract: Contract, interval: str) -> typing.List[Candle]: #specifies our output is a list of Candle objects
         data = {}
         data['symbol'] = contract.symbol
         data['interval'] = interval
         data['limit'] = 1000
 
-        raw_candles = self._make_request("GET", "/fapi/v1/klines", data)
+        if self.futures:
+            raw_candles = self._make_request("GET", "/fapi/v1/klines", data)
+        else:
+            raw_candles = self._make_request("GET", "/api/v3/klines", data)
+
         candles = []
 
         if raw_candles is not None: #if request was successful
             for c in raw_candles:
-                candles.append(Candle(c, interval, "binance")) #create Candle object and provide it with information --> c1 = open price, c2 = high price, c3 = low price, c4 = close price, c5 = volume
+                candles.append(Candle(c, interval, self.platform)) #create Candle object and provide it with information --> c1 = open price, c2 = high price, c3 = low price, c4 = close price, c5 = volume
         
         return candles #return list of Candle objects
     
@@ -142,7 +148,11 @@ class BinanceClient:
     def get_bid_ask(self, contract: Contract) -> typing.Dict[str, float]:
         data = {}
         data['symbol'] = contract.symbol
-        ob_data = self._make_request("GET", "/fapi/v1/ticker/bookTicker", data) #"https://testnet.binancefuture.com/fapi/v1/ticker/bookTicker?symbol=BTCUSDT" #to add, &key=value&key2=value2
+
+        if self.futures:
+            ob_data = self._make_request("GET", "/fapi/v1/ticker/bookTicker", data) #"https://testnet.binancefuture.com/fapi/v1/ticker/bookTicker?symbol=BTCUSDT" #to add, &key=value&key2=value2
+        else:
+            ob_data = self._make_request("GET", "/api/v3/ticker/bookTicker", data)
         
         if ob_data is not None: #if request was successful
             #update prices dictionary. symbol : bid/ask
@@ -163,13 +173,17 @@ class BinanceClient:
         balances = {} #key will be asset name, value will be information about asset
 
         if self.futures:
-            account_data = self._make_request("GET", "/fapi/v2/account", data)
+            account_data = self._make_request("GET", "/fapi/v1/account", data)
         else:
             account_data = self._make_request("GET", "/api/v3/account", data)
 
         if account_data is not None: #if request was successful
-            for a in account_data['assets']: #loop through information in assets list
-                balances[a['asset']] = Balance(a, "binance")
+            if self.futures:
+                for a in account_data['assets']: #loop through information in assets list
+                    balances[a['asset']] = Balance(a, self.platform)
+            else:
+                for a in account_data['balances']:
+                    balances[a['asset']] = Balance(a, self.platform)
 
         return balances
     
@@ -178,11 +192,12 @@ class BinanceClient:
         data = {} #dictionary of parameters
         data['symbol'] = contract.symbol
         data['side'] = side.upper()
-        data['quantity'] = round(round(quantity / contract.lot_size) * contract.lot_size, 8)
-        data['type'] = order_type
+        data['quantity'] = round(int(quantity / contract.lot_size) * contract.lot_size, 8)
+        data['type'] = order_type.upper()
 
         if price is not None: # if we get a price argument
             data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8) # add price to dictionary of parameters
+            data['price'] = '%.*f' % (contract.price_decimals, data['price'])  # Avoids scientific notation
 
         if tif is not None: # same for time in force
             data['timeInForce'] = tif
@@ -190,10 +205,20 @@ class BinanceClient:
         data['timestamp'] = int(time.time() * 1000)
         data['signature'] = self._generate_signature(data)
 
-        order_status = self._make_request("POST", "/fapi/v1/order", data)
+        if self.futures:
+            order_status = self._make_request("POST", "/fapi/v1/order", data)
+        else:
+            order_status = self._make_request("POST", "/api/v3/order", data)
 
         if order_status is not None:
-            order_status = OrderStatus(order_status, "binance")
+
+            if not self.futures:
+                if order_status['status'] == "FILLED":
+                    order_status['avgPrice'] = self._get_execution_price(contract, order_status['orderId'])
+                else:
+                    order_status['avgPrice'] = 0
+
+            order_status = OrderStatus(order_status, self.platform)
 
         return order_status
     
@@ -206,13 +231,42 @@ class BinanceClient:
         data['timestamp'] = int(time.time() * 1000)
         data['signature'] = self._generate_signature(data)
 
-        order_status = self._make_request("DELETE", "/fapi/v1/order", data)
+        if self.futures:
+            order_status = self._make_request("DELETE", "/fapi/v1/order", data)
+        else:
+            order_status = self._make_request("DELETE", "/api/v3/order", data)
 
         if order_status is not None:
-            order_status = OrderStatus(order_status, "binance") #if successful, replace order_status variable with OrderStatus object
+            if not self.futures:
+                order_status['avgPrice'] = self._get_execution_price(contract, order_id)
+            order_status = OrderStatus(order_status, self.platform)
 
         return order_status
 
+    def _get_execution_price(self, contract: Contract, order_id: int) -> float:
+
+        data = {}
+        data['timestamp'] = int(time.time() * 1000)
+        data['symbol'] = contract.symbol
+        data['signature'] = self._generate_signature(data)
+
+        trades = self._make_request("GET", "/api/v3/myTrades", data)
+
+        avg_price = 0
+
+        if trades is not None:
+
+            executed_qty = 0
+            for t in trades:
+                if t['orderId'] == order_id:
+                    executed_qty += float(t['qty'])
+
+            for t in trades:
+                if t['orderId'] == order_id:
+                    fill_pct = float(t['qty']) / executed_qty
+                    avg_price += (float(t['price']) * fill_pct)
+
+        return round(round(avg_price / contract.tick_size) * contract.tick_size, 8)
 
     def get_order_status(self, contract: Contract, order_id: int) -> OrderStatus:
 
@@ -222,10 +276,19 @@ class BinanceClient:
         data['orderId'] = order_id
         data['signature'] = self._generate_signature(data)
 
-        order_status = self._make_request("GET", "/fapi/v1/order", data)
+        if self.futures:
+            order_status = self._make_request("GET", "/fapi/v1/order", data)
+        else:
+            order_status = self._make_request("GET", "/api/v3/order", data)
 
         if order_status is not None:
-            order_status = OrderStatus(order_status, "binance")
+            if not self.futures:
+                if order_status['status'] == "FILLED":
+                    order_status['avgPrice'] = self._get_execution_price(contract, order_id)
+                else:
+                    order_status['avgPrice'] = 0
+
+            order_status = OrderStatus(order_status, self.platform)
 
         return order_status
     
@@ -245,13 +308,24 @@ class BinanceClient:
 
     def _on_open(self, ws):
         logger.info("Binanace connection opened") #welcome to show websocket connection has been established
-        
-        self.subscribe_channel(list(self.contracts.values()), "bookTicker") #when connection opens, subscribe to channel
-        self.subscribe_channel(list(self.contracts.values()), "aggTrade")
+        # self.subscribe_channel(list(self.contracts.values()), "bookTicker") #when connection opens, subscribe to channel
+        # self.subscribe_channel(list(self.contracts.values()), "aggTrade")
+
+        self.ws_connected = True
+
+        # The aggTrade channel is subscribed to in the _switch_strategy() method of strategy_component.py
+
+        for channel in ["bookTicker", "aggTrade"]:
+            for symbol in self.ws_subscriptions[channel]:
+                self.subscribe_channel([self.contracts[symbol]], channel, reconnection=True)
+
+        if "BTCUSDT" not in self.ws_subscriptions["bookTicker"]:
+            self.subscribe_channel([self.contracts["BTCUSDT"]], "bookTicker")
 
 
     def _on_close(self, ws, close_status_code, close_msg):
         logger.warning("Binance Websocket connection closed")
+        self.ws_connected = False
     
     def _on_error(self, ws, msg: str):
         logger.error("Binanace connection error: %s", msg)
@@ -259,6 +333,9 @@ class BinanceClient:
     def _on_message(self, ws, msg: str):
         data = json.loads(msg) #convert json string that we received to json object that we can pass. loads() does this
         
+        if "u" in data and "A" in data:
+            data['e'] = "bookTicker"
+
         if "e" in data:
             if data['e'] == "bookTicker":
 
@@ -283,43 +360,62 @@ class BinanceClient:
                 except RuntimeError as e:
                     logger.error("Error while looping through the Binance strategies: %s", e)
 
+            if data['e'] == "aggTrade":
+                symbol = data['s']
 
-        elif data['e'] == "aggTrade":
-            symbol = data['s']
-
-            for key, strat in self.strategies.items():
-                if strat.contract.symbol == symbol:
-                    res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])
-                    strat.check_trade(res)
+                for key, strat in self.strategies.items():
+                    if strat.contract.symbol == symbol:
+                        res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])
+                        strat.check_trade(res)
         
     
-    def subscribe_channel(self, contracts: typing.List[Contract], channel: str): #subscribe to a channel that provides us with market data. parameter is symbol you want data on
+    def subscribe_channel(self, contracts: typing.List[Contract], channel: str, reconnection=False): #subscribe to a channel that provides us with market data. parameter is symbol you want data on
         #creating json object. create python dict and fill it with the keys from binance documentation
+
+        if len(contracts) > 200:
+            logger.warning("Subscribing to more than 200 symbols will most likely fail. "
+                           "Consider subscribing only when adding a symbol to your Watchlist or when starting a strategy for a symbol.")
+
         data = {}
         data['method'] = "SUBSCRIBE"
         data['params'] = [] #list of channels we want to subscribe to
 
-        for contract in contracts:
-            data['params'].append(contract.symbol.lower() + "@" + channel) #appending to the list of channels
+        if len(contracts) == 0:
+            data['params'].append(channel)
+        else:
+            for contract in contracts:
+                if contract.symbol not in self.ws_subscriptions[channel] or reconnection:
+                    data['params'].append(contract.symbol.lower() + "@" + channel) #appending to the list of channels
+                    if contract.symbol not in self.ws_subscriptions[channel]:
+                        self.ws_subscriptions[channel].append(contract.symbol)
+
+            if len(data['params']) == 0:
+                return
+
         data['id'] = self._ws_id
 
         #send() expects string not dict. json.dumps(data) converts dict to JSON string. similar to query string idea
         try:
             self.ws.send(json.dumps(data)) #send() to send JSON object through the websocket connection
+            logger.info("Binance: subscribing to: %s", ','.join(data['params']))
         except Exception as e:
-            logger.error("Websocket error while subscribing to %s %s updates: %s", len(contracts), channel, e)
+            logger.error("Websocket error while subscribing to @bookTicker and @aggTrade: %s", e)
             
         self._ws_id += 1
     
     def get_trade_size(self, contract: Contract, price: float, balance_pct: float):
 
+        logger.info("Getting Binance trade size...")
+
         balance = self.get_balances()
         if balance is not None:
-            if "USDT" in balance:
-                balance = balance['USDT'].wallet_balance
+            if contract.quote_asset in balance:  #with binance Spot, the quote asset isn't necessarily USDT
+                if self.futures:
+                    balance = balance[contract.quote_asset].wallet_balance
+                else:
+                    balance = balance[contract.quote_asset].free
             else:
                 return None
-
         else:
             return None
         
@@ -327,7 +423,7 @@ class BinanceClient:
 
         trade_size = round(round(trade_size / contract.lot_size) * contract.lot_size, 8)
 
-        logger.info("Binance Futures current USDT balance = %s, trade size = %s", balance, trade_size)
+        logger.info("Binance current %s balance = %s, trade size = %s", contract.quote_asset, balance, trade_size)
 
         return trade_size
 

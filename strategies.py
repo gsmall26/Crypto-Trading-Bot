@@ -43,7 +43,7 @@ class Strategy:
         logger.info("%s", msg)
         self.logs.append({"log": msg, "displayed": False})
     
-    def parse_trade(self, price: float, size: float, timestamp: int) -> str:
+    def parse_trades(self, price: float, size: float, timestamp: int) -> str:
         #3 cases: update same current candle, new candle, or new candle + missing candles
 
         timestamp_diff = int(time.time() * 1000) - timestamp
@@ -115,6 +115,7 @@ class Strategy:
                 for trade in self.trades:
                     if trade.entry_id == order_id:
                         trade.entry_price = order_status.avg_price
+                        trade.quantity = order_status.executed_qty
                         break
                 return
 
@@ -123,6 +124,9 @@ class Strategy:
 
 
     def _open_position(self, signal_result: int):
+
+        if self.client.platform == "binance_spot" and signal_result == -1:
+            return
 
         trade_size = self.client.get_trade_size(self.contract, self.candles[-1].close, self.balance_pct)
         if trade_size is None:
@@ -150,7 +154,7 @@ class Strategy:
             
             new_trade = Trade({"time": int(time.time() * 1000), "entry_price": avg_fill_price, "contract": self.contract,
                                "strategy": self.strat_name, "side": position_side, "status": "open",
-                               "pnl": 0, "quantity": trade_size, "entry_id": order_status.order_id})
+                               "pnl": 0, "quantity": order_status.executed_qty, "entry_id": order_status.order_id})
             self.trades.append(new_trade)
     
     def _check_tp_sl(self, trade: Trade): #take profit, stop loss
@@ -179,9 +183,17 @@ class Strategy:
                     tp_triggered = True
         
         if tp_triggered or sl_triggered:
-            self._add_log(f"{'Stop loss' if sl_triggered else 'Take profit'} for {self.contract.symbol} {self.tf}")
+            self._add_log(f"{'Stop loss' if sl_triggered else 'Take profit'} for {self.contract.symbol} {self.tf} "
+                          f"| Current Price = {price} (Entry price was {trade.entry_price})")
 
-            order_side = "SELL" if trade.size == "long" else "BUY"
+            order_side = "SELL" if trade.side == "long" else "BUY"
+            
+            if not self.client.futures:
+                current_balances = self.client.get_balances()
+                if current_balances is not None:
+                    if order_side == "SELL" and self.contract.base_asset in current_balances:
+                        trade.quantity = min(current_balances[self.contract.base_asset].free, trade.quantity)
+
             order_status = self.client.place_order(self.contract, "MARKET", trade.quantity, order_side)
 
             if order_status is not None:
@@ -201,7 +213,7 @@ class TechnicalStrategy(Strategy):
 
         self._rsi_length = other_params['rsi_length']
 
-    def _rsi(self): #relative strength index
+    def _rsi(self) -> float: #relative strength index
 
         close_list = []
         for candle in self.candles:
@@ -218,7 +230,7 @@ class TechnicalStrategy(Strategy):
         avg_gain = up.ewm(com=(self._rsi_length - 1), min_periods=self._rsi_length).mean() #com: Center of Mass
         avg_loss = down.abs().ewm(com=(self._rsi_length - 1), min_periods=self._rsi_length).mean()
 
-        rs = avg_gain / avg_loss
+        rs = avg_gain / avg_loss #relative strength
 
         rsi = 100 - 100 / (1 + rs)
         rsi = rsi.round(2)
@@ -265,7 +277,7 @@ class TechnicalStrategy(Strategy):
         if tick_type == "new_candle" and not self.ongoing_position:
             signal_result = self._check_signal()
 
-            if signal_result in [-1, 1]:
+            if signal_result in [1, -1]:
                 self._open_position(signal_result)
 
 
@@ -292,7 +304,7 @@ class BreakoutStrategy(Strategy):
         if not self.ongoing_position:
             signal_result = self._check_signal()
 
-            if signal_result in [-1, 1]:
+            if signal_result in [1, -1]:
                 self._open_position(signal_result)
 
 

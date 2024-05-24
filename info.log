@@ -656,3 +656,216 @@
 2024-05-19 17:16:26,800 ERROR :: Binanace connection error: 'Contract' object has no attribute 'symbol'
 2024-05-19 17:16:27,241 INFO :: Websocket connected
 2024-05-19 17:16:27,242 INFO :: Bitmex connection opened
+2024-05-20 16:15:56,175 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:15:56,180 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:15:56,982 INFO :: Websocket connected
+2024-05-20 16:15:56,982 INFO :: Binanace connection opened
+2024-05-20 16:15:56,983 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:15:57,216 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:15:58,055 INFO :: Websocket connected
+2024-05-20 16:15:58,058 INFO :: Bitmex connection opened
+2024-05-20 16:16:09,876 INFO :: Binance: subscribing to: btcstusdt@bookTicker
+2024-05-20 16:16:39,324 INFO :: Binance: subscribing to: btcusdt@aggTrade
+2024-05-20 16:16:53,143 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x104893210>>: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:16:53,144 ERROR :: Binanace connection error: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:16:53,248 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x104893210>>: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:16:53,248 ERROR :: Binanace connection error: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,988 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x104893210>>: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,990 ERROR :: Binanace connection error: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,990 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x104893210>>: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,991 ERROR :: Binanace connection error: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,991 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x104893210>>: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,991 ERROR :: Binanace connection error: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,991 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x104893210>>: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,991 ERROR :: Binanace connection error: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,991 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x104893210>>: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,991 ERROR :: Binanace connection error: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,991 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x104893210>>: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:18,991 ERROR :: Binanace connection error: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:19,139 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x104893210>>: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:17:19,139 ERROR :: Binanace connection error: 'BreakoutStrategy' object has no attribute 'parse_trades'
+2024-05-20 16:20:28,084 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:20:28,088 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:20:28,634 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:20:29,080 INFO :: Websocket connected
+2024-05-20 16:20:29,080 INFO :: Binanace connection opened
+2024-05-20 16:20:29,080 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:20:29,333 INFO :: Websocket connected
+2024-05-20 16:20:29,333 INFO :: Bitmex connection opened
+2024-05-20 16:20:44,970 INFO :: Binance: subscribing to: btcusdt@aggTrade
+2024-05-20 16:20:46,520 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:20:46,520 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:20:46,521 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:20:46,521 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:20:46,521 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:20:46,521 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:20:46,521 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:20:46,521 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:20:46,639 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:20:46,639 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,722 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,723 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,724 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,724 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,724 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,725 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,725 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,725 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,725 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,725 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,725 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,725 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,726 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,726 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,726 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,726 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,726 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,726 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,726 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,726 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,727 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,727 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,727 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,727 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,727 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,727 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,727 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,727 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,811 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:03,812 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,678 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,680 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,680 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,681 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,681 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,681 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,681 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,681 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,681 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,681 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,682 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,682 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,682 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,682 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,682 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,682 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,804 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:14,804 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:15,326 ERROR :: error from callback <bound method BinanceClient._on_message of <connectors.binance.BinanceClient object at 0x10c2440d0>>: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:21:15,326 ERROR :: Binanace connection error: 'Candle' object has no attribute 'timestamp'
+2024-05-20 16:26:13,936 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:26:13,941 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:26:14,641 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:26:14,902 INFO :: Websocket connected
+2024-05-20 16:26:14,903 INFO :: Binanace connection opened
+2024-05-20 16:26:14,903 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:26:15,433 INFO :: Websocket connected
+2024-05-20 16:26:15,433 INFO :: Bitmex connection opened
+2024-05-20 16:26:29,300 INFO :: Binance: subscribing to: btcstusdt@aggTrade
+2024-05-20 16:26:29,302 INFO :: Binance: subscribing to: btcstusdt@bookTicker
+2024-05-20 16:27:36,636 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:27:36,639 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:27:37,141 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:27:37,564 INFO :: Websocket connected
+2024-05-20 16:27:37,564 INFO :: Binanace connection opened
+2024-05-20 16:27:37,564 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:27:37,871 INFO :: Websocket connected
+2024-05-20 16:27:37,872 INFO :: Bitmex connection opened
+2024-05-20 16:27:53,131 INFO :: Binance: subscribing to: btcstusdt@aggTrade
+2024-05-20 16:27:53,132 INFO :: Binance: subscribing to: btcstusdt@bookTicker
+2024-05-20 16:30:03,550 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:30:03,556 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:30:04,385 INFO :: Websocket connected
+2024-05-20 16:30:04,385 INFO :: Binanace connection opened
+2024-05-20 16:30:04,386 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:30:04,448 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:30:05,119 INFO :: Websocket connected
+2024-05-20 16:30:05,120 INFO :: Bitmex connection opened
+2024-05-20 16:32:22,339 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:32:22,343 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:32:22,774 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:32:23,160 INFO :: Websocket connected
+2024-05-20 16:32:23,160 INFO :: Binanace connection opened
+2024-05-20 16:32:23,160 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:32:23,423 INFO :: Websocket connected
+2024-05-20 16:32:23,423 INFO :: Bitmex connection opened
+2024-05-20 16:32:38,898 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:32:38,906 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:32:39,596 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:32:39,835 INFO :: Websocket connected
+2024-05-20 16:32:39,836 INFO :: Binanace connection opened
+2024-05-20 16:32:39,836 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:32:40,258 INFO :: Websocket connected
+2024-05-20 16:32:40,258 INFO :: Bitmex connection opened
+2024-05-20 16:32:58,722 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:32:58,728 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:32:59,478 INFO :: Websocket connected
+2024-05-20 16:32:59,478 INFO :: Binanace connection opened
+2024-05-20 16:32:59,479 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:33:01,449 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:33:02,173 INFO :: Websocket connected
+2024-05-20 16:33:02,174 INFO :: Bitmex connection opened
+2024-05-20 16:33:31,098 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:33:31,103 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:33:31,758 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:33:31,936 INFO :: Websocket connected
+2024-05-20 16:33:31,936 INFO :: Binanace connection opened
+2024-05-20 16:33:31,936 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:33:32,372 INFO :: Websocket connected
+2024-05-20 16:33:32,372 INFO :: Bitmex connection opened
+2024-05-20 16:34:55,744 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:34:55,748 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:34:56,366 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:34:56,818 INFO :: Websocket connected
+2024-05-20 16:34:56,819 INFO :: Binanace connection opened
+2024-05-20 16:34:56,819 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:34:57,062 INFO :: Websocket connected
+2024-05-20 16:34:57,062 INFO :: Bitmex connection opened
+2024-05-20 16:36:33,564 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:36:33,570 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:36:34,364 INFO :: Websocket connected
+2024-05-20 16:36:34,365 INFO :: Binanace connection opened
+2024-05-20 16:36:34,365 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:36:34,619 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:36:35,372 INFO :: Websocket connected
+2024-05-20 16:36:35,372 INFO :: Bitmex connection opened
+2024-05-20 16:41:12,471 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:41:12,476 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:41:12,952 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:41:13,393 INFO :: Websocket connected
+2024-05-20 16:41:13,393 INFO :: Binanace connection opened
+2024-05-20 16:41:13,393 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:41:13,692 INFO :: Websocket connected
+2024-05-20 16:41:13,692 INFO :: Bitmex connection opened
+2024-05-20 16:41:32,816 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:41:32,821 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:41:33,568 INFO :: Websocket connected
+2024-05-20 16:41:33,570 INFO :: Binanace connection opened
+2024-05-20 16:41:33,570 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:41:34,050 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:41:34,883 INFO :: Websocket connected
+2024-05-20 16:41:34,884 INFO :: Bitmex connection opened
+2024-05-20 16:41:55,465 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:41:55,469 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:41:56,005 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:41:56,415 INFO :: Websocket connected
+2024-05-20 16:41:56,415 INFO :: Binanace connection opened
+2024-05-20 16:41:56,416 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:41:56,687 INFO :: Websocket connected
+2024-05-20 16:41:56,688 INFO :: Bitmex connection opened
+2024-05-20 16:42:10,007 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:42:10,009 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:42:10,698 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:42:10,914 INFO :: Websocket connected
+2024-05-20 16:42:10,914 INFO :: Binanace connection opened
+2024-05-20 16:42:10,914 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:42:11,342 INFO :: Websocket connected
+2024-05-20 16:42:11,342 INFO :: Bitmex connection opened
+2024-05-20 16:42:28,028 ERROR :: Error while making GET request to /fapi/v1/account: {'code': -5000, 'msg': 'GET /fapi/v1/account is retired, please use GET /fapi/v2/account'} (error code 400)
+2024-05-20 16:42:28,029 INFO :: Binance Futures Client successfully initialized
+2024-05-20 16:42:28,770 INFO :: Websocket connected
+2024-05-20 16:42:28,770 INFO :: Binanace connection opened
+2024-05-20 16:42:28,771 INFO :: Binance: subscribing to: btcusdt@bookTicker
+2024-05-20 16:42:29,131 INFO :: Bitmex Client successfully initialized
+2024-05-20 16:42:29,716 INFO :: Websocket connected
+2024-05-20 16:42:29,716 INFO :: Bitmex connection opened
